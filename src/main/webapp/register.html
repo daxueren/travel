@@ -47,7 +47,12 @@
 
 			$(function () {
 				$("#registerForm").submit(function () {
-					return checkUsername()&&checkPassword()&&checkEmail();
+				    if(checkUsername()&&checkPassword()&&checkEmail()){
+				        $.post("regisUserServlet", $(this).serialize(), function (data) {
+
+                        });
+                    }
+					return false;
 				});
 
 				$("#username").blur(checkUsername);
