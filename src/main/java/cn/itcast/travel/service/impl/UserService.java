@@ -6,4 +6,6 @@ public interface UserService {
     public Boolean regis(User user);
 
     public Boolean active(String code);
+
+    public User login(User user);
 }
