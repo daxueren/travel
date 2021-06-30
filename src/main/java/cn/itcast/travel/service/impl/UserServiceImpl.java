@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Boolean regis(User user) {
         User resultUser = userDao.findUserByUsername(user.getUsername());
-        if (user==null){
+        if (resultUser==null){
             user.setCode(UuidUtil.getUuid());
             user.setStatus("N");
             userDao.saveUser(user);

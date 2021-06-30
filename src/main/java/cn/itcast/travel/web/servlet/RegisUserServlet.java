@@ -27,7 +27,7 @@ public class RegisUserServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
         session.removeAttribute("CHECKCODE_SERVER");
-        if (checkcode_server==null||!checkcode_server.equals(check)){
+        if (checkcode_server==null||!checkcode_server.equalsIgnoreCase(check)){
             ResultInfo resltInfo = new ResultInfo();
             resltInfo.setFlag(false);
             resltInfo.setErrorMsg("Check Code Error");
