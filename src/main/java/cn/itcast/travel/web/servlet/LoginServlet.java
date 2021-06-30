@@ -12,34 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-@WebServlet("/regisUserServlet")
-public class RegisUserServlet extends HttpServlet {
+@WebServlet("/loginServlet")
+public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //TODO checkcode
-        String check = req.getParameter("check");
-        HttpSession session = req.getSession();
-        String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
-        session.removeAttribute("CHECKCODE_SERVER");
-        if (checkcode_server==null||!checkcode_server.equals(check)){
-            ResultInfo resltInfo = new ResultInfo();
-            resltInfo.setFlag(false);
-            resltInfo.setErrorMsg("Check Code Error");
-            ObjectMapper objectMapper = new ObjectMapper();
-            String json = objectMapper.writeValueAsString(resltInfo);
-            resp.setContentType("application/json;charset=utf-8");
-            resp.getWriter().write(json);
-            return;
-        }
-
-
-
         Map<String, String[]> parameterMap = req.getParameterMap();
         User user = new User();
         try {
@@ -50,18 +30,22 @@ public class RegisUserServlet extends HttpServlet {
             e.printStackTrace();
         }
         UserService userService = new UserServiceImpl();
-        Boolean flag = userService.regis(user);
-        ResultInfo resltInfo = new ResultInfo();
-        if (flag){
-            resltInfo.setFlag(true);
-        }else {
-            resltInfo.setFlag(false);
-            resltInfo.setErrorMsg("REGIS ERROR!!!");
+        User resultUser = userService.login(user);
+        ResultInfo resultInfo = new ResultInfo();
+        if (resultUser==null){
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("Username Error Or Password Error");
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(resltInfo);
+        if (resultUser!=null&&!"Y".equals(resultUser.getStatus())){
+            resultInfo.setFlag(false);
+            resultInfo.setErrorMsg("User Need Active");
+        }
+        if (resultUser!=null&&"Y".equals(resultUser.getStatus())){
+            resultInfo.setFlag(true);
+        }
+        ObjectMapper objectMapper =new ObjectMapper();
         resp.setContentType("application/json;charset=utf-8");
-        resp.getWriter().write(json);
+        objectMapper.writeValue(resp.getOutputStream(),resultInfo);
     }
 
     @Override
