@@ -22,7 +22,7 @@ public class ActiveServlet extends HttpServlet {
         String msg = null;
         if (code!=null&&!code.isEmpty()){
             Boolean flag= userService.active(code);
-            if (flag==true){
+            if (Boolean.TRUE.equals(flag)){
                 msg = "Active Success <a href='login.html'>Login</a>";
             }else if (flag==null){
                 msg = "Active Code Be Used,Please Login <a href='login.html'>Login</a>";

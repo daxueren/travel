@@ -39,7 +39,6 @@ public class RegisUserServlet extends HttpServlet {
         }
 
 
-
         Map<String, String[]> parameterMap = req.getParameterMap();
         User user = new User();
         try {

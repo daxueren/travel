@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
             resultInfo.setErrorMsg("User Need Active");
         }
         if (resultUser!=null&&"Y".equals(resultUser.getStatus())){
+            req.getSession().setAttribute("user",resultUser);
             resultInfo.setFlag(true);
         }
         ObjectMapper objectMapper =new ObjectMapper();
