@@ -1,4 +1,4 @@
-package cn.itcast.travel.dao.impl;
+package cn.itcast.travel.dao;
 
 import cn.itcast.travel.domain.User;
 

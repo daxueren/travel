@@ -1,9 +1,6 @@
 package cn.itcast.travel.web.servlet;
 
-import cn.itcast.travel.dao.impl.UserDao;
-import cn.itcast.travel.dao.impl.UserDaoImpl;
-import cn.itcast.travel.domain.User;
-import cn.itcast.travel.service.impl.UserService;
+import cn.itcast.travel.service.UserService;
 import cn.itcast.travel.service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;

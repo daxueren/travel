@@ -1,4 +1,4 @@
-package cn.itcast.travel.service.impl;
+package cn.itcast.travel.service;
 
 import cn.itcast.travel.domain.User;
 

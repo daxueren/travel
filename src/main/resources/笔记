@@ -3,3 +3,5 @@ Idea控制台中文乱码解决：-Dfile.encoding=gb2312
 获取方法、执行方法，所获取的方法需要置为public
 Method method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class);
 method.invoke(this, req, resp);
+
+在项目那一栏设置中把Compact Middle Packages的√取消,即可展开多层文件夹，避免在service/impl目录下不能在service下创建文件的问题
