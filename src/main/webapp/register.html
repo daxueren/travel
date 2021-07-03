@@ -48,7 +48,7 @@
 			$(function () {
 				$("#registerForm").submit(function () {
 				    if(checkUsername()&&checkPassword()&&checkEmail()){
-				        $.post("regisUserServlet", $(this).serialize(), function (data) {
+				        $.post("user/regis", $(this).serialize(), function (data) {
                             if (data.flag){
                                 location.href="register_ok.html"
                             }else {

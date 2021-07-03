@@ -1,7 +1,7 @@
 <!-- 头部 start -->
 <script>
     $(function () {
-        $.get("findUserServlet", {}, function (data) {
+        $.get("user/findOne", {}, function (data) {
             var msg = "Welcome " + data.name;
             $("#span_username").html(msg);
         })

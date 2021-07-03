@@ -22,7 +22,6 @@ public class RegisUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //TODO checkcode
         String check = req.getParameter("check");
         HttpSession session = req.getSession();
         String checkcode_server = (String) session.getAttribute("CHECKCODE_SERVER");
