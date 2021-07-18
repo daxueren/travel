@@ -1,8 +1,12 @@
 package cn.itcast.travel.web.servlet;
 
+import cn.itcast.travel.domain.Favorite;
 import cn.itcast.travel.domain.PageBean;
 import cn.itcast.travel.domain.Route;
+import cn.itcast.travel.domain.User;
+import cn.itcast.travel.service.FavoriteService;
 import cn.itcast.travel.service.RouteService;
+import cn.itcast.travel.service.impl.FavoriteServiceImpl;
 import cn.itcast.travel.service.impl.RouteServiceImpl;
 
 import javax.servlet.ServletException;
@@ -16,11 +20,14 @@ import java.util.Map;
 public class RouteServlet extends BaseServlet {
 
     private RouteService routeService = new RouteServiceImpl();
+    private FavoriteService favoriteService = new FavoriteServiceImpl();
 
-    protected void pageQuery(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void pageQuery(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String currentPageStr = req.getParameter("currentPage");
         String pageSizeStr = req.getParameter("pageSize");
         String cidStr = req.getParameter("cid");
+        String rname = req.getParameter("rname");
+
         int currentPage = 1;
         int pageSize = 5;
         int cid = 0;
@@ -32,12 +39,56 @@ public class RouteServlet extends BaseServlet {
         if(pageSizeStr != null && pageSizeStr.length() > 0){
             pageSize = Integer.valueOf(pageSizeStr);
         }
-        if(cidStr != null && cidStr.length() > 0){
+        if(cidStr != null && cidStr.length() > 0 && !"null".equals(cidStr)){
             cid = Integer.valueOf(cidStr);
         }
 
-        PageBean<Route> routePageBean = routeService.pageQuery(cid, currentPage, pageSize);
+        PageBean<Route> routePageBean = routeService.pageQuery(cid, currentPage, pageSize, rname);
         writeValue(routePageBean, resp);
     }
 
+    public void findOne(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        String ridStr = req.getParameter("rid");
+        int rid = 0;
+
+        if(ridStr != null && ridStr.length() > 0 && !"null".equals(ridStr)){
+            rid = Integer.valueOf(ridStr);
+        }
+        Route route = routeService.findOne(rid);
+        writeValue(route, resp);
+    }
+
+    public void isFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        String ridStr = req.getParameter("rid");
+        int rid = 0;
+        if(ridStr != null && ridStr.length() > 0 && !"null".equals(ridStr)){
+            rid = Integer.valueOf(ridStr);
+        }
+        User user = (User) req.getSession().getAttribute("user");
+        int uid;
+        if (user == null){
+            uid = 0;
+        }else {
+            uid = user.getUid();
+        }
+        boolean flag = favoriteService.isFavorite(rid, uid);
+        writeValue(flag, resp);
+
+    }
+
+    public void addFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        String ridStr = req.getParameter("rid");
+        int rid = 0;
+        if(ridStr != null && ridStr.length() > 0 && !"null".equals(ridStr)){
+            rid = Integer.valueOf(ridStr);
+        }
+        User user = (User) req.getSession().getAttribute("user");
+        int uid;
+        if (user == null){
+            uid = 0;
+        }else {
+            uid = user.getUid();
+        }
+        boolean flag = favoriteService.addFavorite(rid, uid);
+    }
 }
